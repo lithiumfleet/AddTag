@@ -8,7 +8,7 @@ export type Cmd = {
 
 const CMDS: Cmd[] = [
     {
-        name: "AddTag.add",
+        name: "AddTag.set",
         handler: (uri?) => {
             if (!uri) {
                 window.showInformationMessage("no file selected")

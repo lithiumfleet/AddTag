@@ -37,7 +37,7 @@ class TagMapperImpl implements TagMapper {
     }
 
     async save(): Promise<void> {
-        const filepath = path.join(__dirname, 'tagmapper.json');
+        const filepath = path.join(__dirname, '.tagmapper.json');
         const data = Array.from(this.map.entries()); // Convert Map to array
         try {
             await fs.promises.writeFile(filepath, JSON.stringify(data, null, 2)); // Pretty-print JSON
@@ -48,7 +48,7 @@ class TagMapperImpl implements TagMapper {
     }
 
     async load(): Promise<void> {
-        const filepath = path.join(__dirname, 'tagmapper.json');
+        const filepath = path.join(__dirname, '.tagmapper.json');
         try {
             const data = await fs.promises.readFile(filepath, 'utf-8');
             const parsedData: [string, FileDecoration][] = JSON.parse(data);
