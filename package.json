@@ -3,6 +3,11 @@
   "displayName": "AddTag",
   "description": "A simple extension for adding tags to files, making the project more readable.",
   "version": "0.0.1",
+  "icon": "assets/icon/tag.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lithiumfleet/AddTag.git"
+  },
   "engines": {
     "vscode": "^1.97.0"
   },
