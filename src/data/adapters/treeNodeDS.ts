@@ -92,6 +92,11 @@ function addToRoot(root: CTreeNode, node: CTreeNode) {
         if (equalUri(prefix, child.uri)) {
             addToRoot(child, node);
             return;
+        } else if (equalUri(prefix, node.uri)) {
+            const tempNode = child
+            root.children[i] = node
+            addToRoot(node, tempNode)
+            return
         } else if (!equalUri(prefix, root.uri)) {
             mergeHappend = true;
             mergedNode = combineNodes(prefix, child, node);

@@ -7,6 +7,10 @@ type Info = {
     tag?: string
 }
 
+/**
+ * Global mapper which can read/write to config file.
+ * This is the original data source for all providers/commands
+ */
 class TagMapper {
     private map = new Map<string, Info>();
 
