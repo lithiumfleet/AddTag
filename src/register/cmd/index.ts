@@ -1,6 +1,7 @@
 import { commands, Disposable, window } from "vscode";
 import { GTagMapper } from "../../data/tag";
 import { trailingFix } from "./uriUtils";
+import { ITreeNode } from "../treeDataProv";
 
 export type Cmd = {
     name: string
@@ -15,7 +16,8 @@ const CMDS: Cmd[] = [
                 window.showInformationMessage("no file selected")
             }
             uri = await trailingFix(uri)
-            window.showInputBox()
+            const prevTag = GTagMapper.get(uri)?.tag
+            window.showInputBox({"value": prevTag})
                 .then((inputs) => {
                     if (inputs) {
                         GTagMapper.set(uri, {tag: inputs})
@@ -36,6 +38,12 @@ const CMDS: Cmd[] = [
         handler: async () => {
                 await GTagMapper.load()
             }
+    },
+    {
+        name: "AddTag.setFromTagPannel",
+        handler: async (item: ITreeNode) => {
+            await commands.executeCommand("AddTag.set", item.uri)
+        }
     }
 ]
 

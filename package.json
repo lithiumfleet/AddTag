@@ -22,24 +22,36 @@
     "commands": [
       {
         "command": "AddTag.set",
-        "title": "set tag"
+        "title": "Set Tag"
       },
       {
         "command": "AddTag.save",
         "enablement": "false",
-        "title": "save tag"
+        "title": "Save Tag"
       },
       {
         "command": "AddTag.load",
         "enablement": "false",
-        "title": "load tag"
+        "title": "Load Tag"
+      },
+      {
+        "command": "AddTag.setFromTagPannel",
+        "title": "Set Tag"
       }
+
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "AddTag.set",
           "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "AddTag.setFromTagPannel",
+          "when": "view === tags",
+          "group": "modification"
         }
       ]
     },
