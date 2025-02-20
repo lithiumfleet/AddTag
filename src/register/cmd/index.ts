@@ -1,5 +1,6 @@
 import { commands, Disposable, window } from "vscode";
-import { GTagMapper } from "../provider/tag";
+import { GTagMapper } from "../../data/tag";
+import { trailingFix } from "./uriUtils";
 
 export type Cmd = {
     name: string
@@ -9,16 +10,17 @@ export type Cmd = {
 const CMDS: Cmd[] = [
     {
         name: "AddTag.set",
-        handler: (uri?) => {
+        handler: async (uri?) => {
             if (!uri) {
                 window.showInformationMessage("no file selected")
             }
+            uri = await trailingFix(uri)
             window.showInputBox()
                 .then((inputs) => {
                     if (inputs) {
-                        GTagMapper.instance.set(uri, inputs)
+                        GTagMapper.set(uri, {tag: inputs})
                     } else {
-                        GTagMapper.instance.del(uri)
+                        GTagMapper.del(uri)
                     }
                 })
             }
@@ -26,13 +28,13 @@ const CMDS: Cmd[] = [
     {
         name: "AddTag.save",
         handler: async () => {
-                await GTagMapper.instance.save()
+                await GTagMapper.save()
             }
     },
     {
         name: "AddTag.load",
         handler: async () => {
-                await GTagMapper.instance.load()
+                await GTagMapper.load()
             }
     }
 ]

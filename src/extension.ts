@@ -1,15 +1,22 @@
 import * as vscode from 'vscode';
 import { disableLongBandge, enableLongBandge } from './hack';
-import { registerProvider } from './register/provider';
+import { registerProvider } from './register/fileDecoProv';
 import { registerCmds } from './register/cmd';
-import { GTagMapper } from './register/provider/tag';
+import { cFileDecoDS, cTagTreeDS } from './data/sources';
+import { registerTreeDataProvider } from './register/treeDataProv';
+
 
 export async function activate(context: vscode.ExtensionContext) {
 	enableLongBandge()
 
-	context.subscriptions.push(registerProvider(GTagMapper.instance))
+	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]
+	if (!workspaceFolder) throw new Error("ws not init")
+
+	context.subscriptions.push(registerProvider(cFileDecoDS))
 	
 	context.subscriptions.push(registerCmds())
+
+	context.subscriptions.push(registerTreeDataProvider(cTagTreeDS(workspaceFolder)))
 
 	await vscode.commands.executeCommand("AddTag.load")
 }
