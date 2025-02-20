@@ -1,5 +1,8 @@
 import { FileDecorationProvider, Uri, CancellationToken, ProviderResult, FileDecoration, Event, Disposable, EventEmitter, window } from "vscode";
 
+/**
+ * The data source will be used by provider, then use DI to decrease the complexity
+ */
 export interface IFileDecoDS {
     get(uri: Uri): FileDecoration | undefined;
     onUpdate: Event<undefined>

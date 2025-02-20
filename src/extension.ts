@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 import { disableLongBandge, enableLongBandge } from './hack';
 import { registerProvider } from './register/fileDecoProv';
 import { registerCmds } from './register/cmd';
-import { cFileDecoDS, cTagTreeDS } from './data/sources';
+import { cTagTreeDS } from "./data/adapters/treeNodeDS";
+import { cFileDecoDS } from "./data/adapters/fileDecoDS";
 import { registerTreeDataProvider } from './register/treeDataProv';
 
 

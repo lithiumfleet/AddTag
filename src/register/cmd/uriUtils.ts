@@ -2,6 +2,23 @@ import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
 
 
+/**
+ * Fix uri. i.e some directories not ends with '/', resulting in wrongly inequalment.
+ * 
+ * @param uri the uri need to be fixed
+ * @returns correct uri
+ */
+export async function trailingFix(uri: vscode.Uri): Promise<vscode.Uri> {
+    if (await checkIfFileOrDirectory(uri) === 'Directory' && !uri.path.endsWith('/')) {
+        return Utils.joinPath(uri, './') as vscode.Uri
+    }
+    if (await checkIfFileOrDirectory(uri) === 'File' && uri.path.endsWith('/')) {
+        const newPath = uri.toString()
+        return vscode.Uri.parse(newPath.slice(0, newPath.length-1), true)
+    }
+    return uri
+}
+
 async function checkIfFileOrDirectory(uri: vscode.Uri): Promise<string> {
     try {
         // Fetch the stats for the Uri
@@ -20,15 +37,4 @@ async function checkIfFileOrDirectory(uri: vscode.Uri): Promise<string> {
         console.error('Error checking Uri:', error);
         return 'Error';
     }
-}
-
-export async function trailingFix(uri: vscode.Uri): Promise<vscode.Uri> {
-    if (await checkIfFileOrDirectory(uri) === 'Directory' && !uri.path.endsWith('/')) {
-        return Utils.joinPath(uri, './') as vscode.Uri
-    }
-    if (await checkIfFileOrDirectory(uri) === 'File' && uri.path.endsWith('/')) {
-        const newPath = uri.toString()
-        return vscode.Uri.parse(newPath.slice(0, newPath.length-1), true)
-    }
-    return uri
 }
